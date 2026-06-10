@@ -1,3 +1,4 @@
+import { DeleteDialog } from '@/components/DeleteDialog';
 import { EditModal } from '@/components/EditModal';
 import { Button } from '@heroui/react';
 import Image from 'next/image';
@@ -16,7 +17,11 @@ const DestinationDetailsPage = async ({ params }) => {
     const { imageUrl, price, destinationName, duration, country, description } = destination;
     return (
         <div className='max-w-7xl mx-auto'>
-            <EditModal destination= {destination}/>
+          <div className='flex justify-end items-center gap-4 mt-5 mb-3'>
+              <EditModal destination= {destination}/>
+              <DeleteDialog destination={destination}/>
+          </div>
+            
             <Image
                 src={imageUrl}
                 alt={destinationName}
@@ -48,3 +53,6 @@ const DestinationDetailsPage = async ({ params }) => {
 };
 
 export default DestinationDetailsPage;
+
+
+
