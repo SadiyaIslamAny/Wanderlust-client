@@ -1,33 +1,40 @@
 "use client";
-import { Card } from "@heroui/react";
+import { Card, Separator } from "@heroui/react";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 const LoginPage = () => {
 
-    const onSubmit = async(e) =>{
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const user = Object.fromEntries(formData.entries());
         // console.log(user)
 
-       const { data, error } = await authClient.signIn.email({
-        email: user.email,
-        password: user.password,
-    })
+        const { data, error } = await authClient.signIn.email({
+            email: user.email,
+            password: user.password,
+        })
 
-     console.log({data, error})
-    if(data){
-        redirect('/')
-    }
-    
-    if(error){
-        alert("error")
-    }
+        console.log({ data, error })
+        if (data) {
+            redirect('/')
+        }
+
+        if (error) {
+            alert("error")
+        }
 
 
     }
-    
+
+    const handleGoogleLogin = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        });
+    }
+
     return (
         <div className="max-w-7xl mx-auto">
             <div className="text-center my-3">
@@ -83,6 +90,14 @@ const LoginPage = () => {
 
                     </div>
                 </Form>
+                <div className="flex items-center gap-4">
+                    <Separator className="flex-1" />
+                    <span className="whitespace-nowrap">Or login with</span>
+                    <Separator className="flex-1" />
+                </div>
+                <div>
+                    <Button onClick={handleGoogleLogin} variant="outline" className="w-full rounded-none"><FcGoogle />Login with Google</Button>
+                </div>
             </Card>
         </div>
     );

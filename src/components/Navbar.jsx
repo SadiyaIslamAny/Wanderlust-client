@@ -11,6 +11,13 @@ const Navbar = () => {
     } = authClient.useSession()
     const user = session?.user
     console.log(user)
+
+
+    const handleLogout = async() =>{
+        await authClient.signOut();
+
+
+    }
     return (
         <nav className='flex justify-between items-center bg-white p-5'>
             <ul className='flex gap-3'>
@@ -36,12 +43,12 @@ const Navbar = () => {
                 {user ? <div className='flex items-center gap-3'>
                     <li>
                         <Avatar>
-                            <Avatar.Image alt="John Doe" src={user?.image} />
+                            <Avatar.Image referrerPolicy='no-referrer' alt="John Doe" src={user?.image} />
                             <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
                         </Avatar>
                     </li>
                     <li>
-                        <Button variant='danger' className="rounded-none">Logout</Button>
+                        <Button onClick={handleLogout} variant='danger' className="rounded-none">Logout</Button>
                     </li>
                 </div>
                     : <>
