@@ -3,7 +3,7 @@ import { Card } from "@heroui/react";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
-const SignupPage = () => {
+const LoginPage = () => {
 
     const onSubmit = async(e) =>{
         e.preventDefault();
@@ -11,14 +11,12 @@ const SignupPage = () => {
         const user = Object.fromEntries(formData.entries());
         // console.log(user)
 
-       const { data, error } = await authClient.signUp.email({
+       const { data, error } = await authClient.signIn.email({
         email: user.email,
         password: user.password,
-        name: user.name,
-        image: user.image,
     })
 
-    //  console.log({data, error})
+     console.log({data, error})
     if(data){
         redirect('/')
     }
@@ -33,31 +31,11 @@ const SignupPage = () => {
     return (
         <div className="max-w-7xl mx-auto">
             <div className="text-center my-3">
-                <h1 className="text-2xl font-bold">Create Account</h1>
+                <h1 className="text-2xl font-bold">Login</h1>
                 <p>Start your Adventure with wanderlust</p>
             </div>
             <Card className="border rounded-none">
                 <Form onSubmit={onSubmit} className="flex w-96 flex-col gap-4" >
-                    {/* name */}
-                    <TextField
-                        isRequired
-                        name="name"
-                        type="text"
-                    >
-                        <Label>Name</Label>
-                        <Input placeholder="Enter Your Name" />
-                        <FieldError />
-                    </TextField>
-
-                     {/* image*/}
-                    <TextField
-                        name="image"
-                        type="url"
-                    >
-                        <Label>Image URL</Label>
-                        <Input placeholder="Enter Your Image URL" />
-                        <FieldError />
-                    </TextField>
 
                     {/* email */}
                     <TextField
@@ -100,7 +78,7 @@ const SignupPage = () => {
                     </TextField>
                     <div className="flex justify-center gap-2">
                         <Button className="rounded-none w-full bg-cyan-500" type="submit">
-                            Create Account
+                            Login
                         </Button>
 
                     </div>
@@ -110,4 +88,4 @@ const SignupPage = () => {
     );
 };
 
-export default SignupPage;
+export default LoginPage;
