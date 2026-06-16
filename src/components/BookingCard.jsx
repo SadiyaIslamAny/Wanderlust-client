@@ -5,6 +5,7 @@ import { Button, Card, DateField, Label } from "@heroui/react";
 import { FaArrowRight } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
 
+
 const BookingCard = ({ destination }) => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
@@ -37,6 +38,9 @@ const BookingCard = ({ destination }) => {
       return;
     }
 
+    const {data: tokenData} = await authClient.token();
+    console.log(tokenData);
+
     const bookingData = {
       userId: user.id,
       userImage: user.image,
@@ -50,10 +54,11 @@ const BookingCard = ({ destination }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/booking", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `bearer ${tokenData?.token}`
         },
         body: JSON.stringify(bookingData),
       });
